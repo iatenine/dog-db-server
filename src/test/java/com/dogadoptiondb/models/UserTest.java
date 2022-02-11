@@ -14,9 +14,16 @@ class UserTest {
 
     @BeforeEach
     void setup() {
+
+        List<Dog> dogs = new ArrayList<>();
+
+        dogs.add(new Dog());
+        dogs.add(new Dog());
+        dogs.add(new Dog());
+
         user = new User();
         user.setId(100);
-        user.setDogs(new ArrayList<>());
+        user.setDogs(dogs);
         user.setLegalName("legal name");
         user.setUsername("username");
         user.setEmail("email");
@@ -30,9 +37,12 @@ class UserTest {
         assertNotEquals(50, user.getId());
     }
 
-    //Todo------------------------------
     @Test
     void getDogs() {
+        List<Dog> otherDogs = user.getDogs();
+        assertEquals(otherDogs, user.getDogs());
+        otherDogs = new ArrayList<>();
+        assertNotEquals(otherDogs, user.getDogs());
     }
 
     @Test
@@ -71,11 +81,19 @@ class UserTest {
         assertNotEquals("123-456-789", user.getPhone());
     }
 
+
+    //Todo---------Needs Better Test
     @Test
     void setDogs() {
-        user.setId(99);
-        assertEquals(99, user.getId());
-        assertNotEquals(100, user.getId());
+        List<Dog> oldDogs = user.getDogs();
+        List<Dog> newDogs = new ArrayList<>();
+        newDogs.add(new Dog());
+        newDogs.add(new Dog());
+        newDogs.add(new Dog());
+        user.setDogs(newDogs);
+
+        assertEquals(newDogs, user.getDogs());
+//        assertNotEquals(oldDogs, user.getDogs());
     }
 
     @Test
