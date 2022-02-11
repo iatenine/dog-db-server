@@ -3,6 +3,7 @@ package com.dogadoptiondb.models;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +16,7 @@ class UserTest {
     void setup() {
         user = new User();
         user.setId(100);
-        user.setDogs(new List<Dog>());
+        user.setDogs(new ArrayList<>());
         user.setLegalName("legal name");
         user.setUsername("username");
         user.setEmail("email");
@@ -25,73 +26,121 @@ class UserTest {
 
     @Test
     void getId() {
+        assertEquals(100, user.getId());
+        assertNotEquals(50, user.getId());
     }
 
+    //Todo------------------------------
     @Test
     void getDogs() {
     }
 
     @Test
     void getLegalName() {
+        assertEquals("legal name", user.getLegalName());
+        assertNotEquals("other name", user.getLegalName());
     }
 
     @Test
     void getUsername() {
+        assertEquals("username", user.getUsername());
+        assertNotEquals("other name", user.getUsername());
     }
 
     @Test
     void getEmail() {
+        assertEquals("email", user.getEmail());
+        assertNotEquals("other email", user.getEmail());
     }
 
     @Test
     void getPhone() {
+        assertEquals("999-999-999", user.getPhone());
+        assertNotEquals("123-456-789", user.getPhone());
     }
 
     @Test
     void getPassword() {
+        assertEquals("password", user.getPassword());
+        assertNotEquals("other password", user.getPassword());
     }
 
     @Test
     void setId() {
+        assertEquals("999-999-999", user.getPhone());
+        assertNotEquals("123-456-789", user.getPhone());
     }
 
     @Test
     void setDogs() {
+        user.setId(99);
+        assertEquals(99, user.getId());
+        assertNotEquals(100, user.getId());
     }
 
     @Test
     void setLegalName() {
+        user.setLegalName("John Doe");
+        assertEquals("John Doe", user.getLegalName());
+        assertNotEquals("legal name", user.getLegalName());
     }
 
     @Test
     void setUsername() {
+        user.setUsername("newUsername");
+        assertEquals("newUsername", user.getUsername());
+        assertNotEquals("username", user.getUsername());
     }
 
     @Test
     void setEmail() {
+        user.setEmail("newEmail");
+        assertEquals("newEmail", user.getEmail());
+        assertNotEquals("email", user.getEmail());
     }
 
     @Test
     void setPhone() {
+        user.setPhone("123-456-789");
+        assertEquals("123-456-789", user.getPhone());
+        assertNotEquals("999-999-999", user.getPhone());
     }
 
     @Test
     void setPassword() {
+        user.setPassword("newPassword");
+        assertEquals("newPassword", user.getPassword());
+        assertNotEquals("password", user.getPassword());
     }
 
     @Test
     void testEquals() {
+        User user2 = user;
+        assertEquals(user2, user);
+        User user3 = new User();
+        assertNotEquals(user3, user);
     }
 
     @Test
     void canEqual() {
+        User user2 = new User();
+        assert(user2.canEqual(user));
     }
 
     @Test
     void testHashCode() {
+        User user2 = new User();
+        int code = user.hashCode();
+        assertNotEquals(user2.hashCode(), user.hashCode());
+        assertEquals(code, user.hashCode());
     }
 
     @Test
     void testToString() {
+        User user2 = new User();
+        String userStr = user2.toString();
+        assertNotEquals(userStr, user.toString());
+        userStr = user.toString();
+        assertEquals(userStr, user.toString());
     }
 }
