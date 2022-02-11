@@ -1,10 +1,27 @@
 package com.dogadoptiondb.models;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
+
+    static private User user;
+
+    @BeforeEach
+    void setup() {
+        user = new User();
+        user.setId(100);
+        user.setDogs(new List<Dog>());
+        user.setLegalName("legal name");
+        user.setUsername("username");
+        user.setEmail("email");
+        user.setPhone("999-999-999");
+        user.setPassword("password");
+    }
 
     @Test
     void getId() {
