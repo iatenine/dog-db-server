@@ -1,5 +1,7 @@
+
 package com.dogadoptiondb.services;
 
+import com.dogadoptiondb.models.Breed;
 import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.repositories.DogRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +23,15 @@ public class DogService
     public Dog getDog(int id)
     {
         return dr.findById(id).orElse(new Dog());
+    }
+
+
+    public List<Dog> getDogByParam(boolean vaccinated, Breed breed, int size, char sex)
+    {
+        return dr.findByVaccinatedAndBreedAndSizeAndSex(vaccinated,
+                breed,
+                size,
+                sex)
+                .stream().filter(dog ->!dog.isAdopted()).collect(Collectors.toList());
     }
 }
