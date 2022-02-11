@@ -14,9 +14,11 @@ class DogTest {
     @BeforeEach
     void setup() {
         dog = new Dog();
+        dog.setOwner(new User());
+        dog.setBreed(new Breed());
         dog.setId(100);
-        dog.setOwnersID(200);
-        dog.setBreedID(300);
+        dog.getOwner().setId(200);
+        dog.getBreed().setId(300);
         dog.setAdopted(true);
         dog.setSize(1);
         dog.setDob(400);
@@ -35,14 +37,14 @@ class DogTest {
 
     @Test
     void getOwnersID() {
-        assertEquals(200, dog.getOwnersID());
-        assertNotEquals(100, dog.getOwnersID());
+        assertEquals(200, dog.getOwner().getId());
+        assertNotEquals(100, dog.getOwner().getId());
     }
 
     @Test
-    void getBreedID() {
-        assertEquals(300, dog.getBreedID());
-        assertNotEquals(150, dog.getBreedID());
+    void getBreed() {
+        assertEquals(300, dog.getBreed().getId());
+        assertNotEquals(150, dog.getBreed().getId());
     }
 
     @Test
@@ -90,16 +92,16 @@ class DogTest {
 
     @Test
     void setOwnersID() {
-        dog.setOwnersID(299);
-        assertEquals(299, dog.getOwnersID() );
-        assertNotEquals(100, dog.getOwnersID());
+        dog.getOwner().setId(299);
+        assertEquals(299, dog.getOwner().getId());
+        assertNotEquals(100, dog.getOwner().getId());
     }
 
     @Test
     void setBreedID() {
-        dog.setBreedID(2);
-        assertEquals(2, dog.getBreedID() );
-        assertNotEquals(1, dog.getBreedID());
+        dog.getBreed().setId(2);
+        assertEquals(2, dog.getBreed().getId() );
+        assertNotEquals(1, dog.getBreed().getId());
     }
 
     @Test
