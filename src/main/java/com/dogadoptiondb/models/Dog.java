@@ -3,19 +3,26 @@ package com.dogadoptiondb.models;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 @Data
+@Entity
+@Table(name = "dogs")
 public class Dog
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private int id;
 
-    private int ownersID;
-    private int breedID;
+    @ManyToOne
+    @JoinColumn(name = "owners_id")
+    private User owner;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "breed")
+    private Breed breed;
+
     private boolean adopted;
     private int size;
     private long dob;
