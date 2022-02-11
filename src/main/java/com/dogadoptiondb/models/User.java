@@ -1,12 +1,15 @@
 package com.dogadoptiondb.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User
@@ -22,6 +25,7 @@ public class User
     private String legalName;
     private String username;
     private String email;
+    @Column(columnDefinition = "numeric")
     private String phone;
     private String password;
 }

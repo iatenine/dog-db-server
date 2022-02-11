@@ -1,12 +1,15 @@
 package com.dogadoptiondb.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "dogs")
 public class Dog
 {
@@ -24,9 +27,13 @@ public class Dog
     private Breed breed;
 
     private boolean adopted;
+    private String name;
     private int size;
     private long dob;
+    @Column(name = "img_src")
     private String src;
+
+    @Column(columnDefinition = "VARCHAR(1)")
     private char sex;
     private boolean vaccinated;
 
