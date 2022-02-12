@@ -6,6 +6,8 @@ import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.repositories.DogRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 import java.util.stream.*;
 
 import java.util.List;
@@ -26,12 +28,29 @@ public class DogService
     }
 
 
-    public List<Dog> getDogByParam(boolean vaccinated, Breed breed, int size, char sex)
+    public List<Dog> getDogByParam(String vaccinated, Breed breed, String size, String sex)
     {
-        return dr.findByVaccinatedAndBreedAndSizeAndSex(vaccinated,
-                breed,
-                size,
-                sex)
-                .stream().filter(dog ->!dog.isAdopted()).collect(Collectors.toList());
+        List<Dog> dogs = (List<Dog>) dr.findAll();
+        Optional<String> vaccinatedOptional = Optional.ofNullable(vaccinated);
+        Optional<Breed> breedOptional = Optional.ofNullable(breed);
+        Optional<String> sizeOptional = Optional.ofNullable(size);
+        Optional<String> sexOptional = Optional.ofNullable(sex);
+        if(breedOptional.isPresent())
+        {
+            dogs.retainAll(dr.findByVaccinated(Boolean.parseBoolean(vaccinated)));
+        }
+        if(breedOptional.isPresent())
+        {
+            dogs.retainAll(dr.findByBreed(breed));
+        }
+        if(sizeOptional.isPresent())
+        {
+            dogs.retainAll(dr.findBySize(Integer.parseInt(size)));
+        }
+        if(sexOptional.isPresent())
+        {
+            dogs.retainAll(dr.findBySex(sex.charAt(0)));
+        }
+        return dogs;
     }
 }

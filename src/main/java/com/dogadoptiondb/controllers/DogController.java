@@ -40,10 +40,7 @@ public class DogController
                                    @RequestParam(value = "size", required = false) String size,
                                    @RequestParam(value = "sex", required = false) String sex)
     {
-        return ds.getDogByParam(Boolean.parseBoolean(vaccinated)
-                ,null,
-                Integer.parseInt(size),
-                sex.charAt(0));
+        return ds.getDogByParam(vaccinated,null, size, sex);
     }
 
 }

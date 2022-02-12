@@ -6,9 +6,16 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface DogRepo extends CrudRepository<Dog, Integer>
 {
-    List<Dog> findByVaccinatedAndBreedAndSizeAndSex(boolean vaccinated, Breed breed, int size, char sex);
+    List<Dog> findByVaccinated(boolean vaccinated);
+
+    List<Dog> findByBreed(Breed breed);
+
+    List<Dog> findBySize(int size);
+
+    List<Dog> findBySex(char sex);
 }
