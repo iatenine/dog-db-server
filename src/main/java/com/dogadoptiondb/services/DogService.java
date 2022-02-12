@@ -35,9 +35,9 @@ public class DogService
         Optional<Breed> breedOptional = Optional.ofNullable(breed);
         Optional<String> sizeOptional = Optional.ofNullable(size);
         Optional<String> sexOptional = Optional.ofNullable(sex);
-        if(breedOptional.isPresent())
+        if(vaccinatedOptional.isPresent())
         {
-            dogs.retainAll(dr.findByVaccinated(Boolean.parseBoolean(vaccinated)));
+            dogs.retainAll(dr.findByVaccinated(Boolean.parseBoolean(vaccinated.toUpperCase())));
         }
         if(breedOptional.isPresent())
         {
@@ -49,7 +49,7 @@ public class DogService
         }
         if(sexOptional.isPresent())
         {
-            dogs.retainAll(dr.findBySex(sex.charAt(0)));
+            dogs.retainAll(dr.findBySex(sex.toUpperCase().charAt(0)));
         }
         return dogs;
     }
