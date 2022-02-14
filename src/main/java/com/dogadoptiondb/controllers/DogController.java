@@ -38,9 +38,10 @@ public class DogController
     public List<Dog> getDogByParam(@RequestParam(name = "vaccination_status", required = false) String vaccinated,
                                    @RequestParam(value = "breed", required = false) String breed,
                                    @RequestParam(value = "size", required = false) String size,
-                                   @RequestParam(value = "sex", required = false) String sex)
+                                   @RequestParam(value = "sex", required = false) String sex,
+                                   @RequestParam(value = "page", required = false) String page)
     {
-        return ds.getDogByParam(vaccinated,null, size, sex);
+        return ds.getDogByParam(vaccinated,null, size, sex, page);
     }
 
 }
