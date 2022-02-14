@@ -40,6 +40,9 @@ public class DogService
         if(breedOptional.isPresent())
         {
             dogs.retainAll(dr.findByVaccinated(Boolean.parseBoolean(vaccinated)));
+        if(vaccinatedOptional.isPresent())
+        {
+            dogs.retainAll(dr.findByVaccinated(Boolean.parseBoolean(vaccinated.toUpperCase())));
         }
         if(breedOptional.isPresent())
         {
@@ -51,7 +54,7 @@ public class DogService
         }
         if(sexOptional.isPresent())
         {
-            dogs.retainAll(dr.findBySex(sex.charAt(0)));
+            dogs.retainAll(dr.findBySex(sex.toUpperCase().charAt(0)));
         }
         if(pageOptional.isPresent()){
             int startIndex = Integer.parseInt(page) * 10;
