@@ -16,6 +16,11 @@ import java.util.Map;
 @RestController
 public class DogController
 {
+
+    public DogController(DogService ds){
+        this.ds = ds;
+    }
+
     @Autowired
     DogService ds;
 
