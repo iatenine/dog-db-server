@@ -26,11 +26,14 @@ public class UserController
     AuthenticationManager authenticationManager;
 
     @PostMapping(value = "/register",consumes = "application/json",produces = "application/json")
-    public ResponseEntity<Integer> newUser(@RequestParam User u)
+    public ResponseEntity<UserResponse> newUser(@RequestParam User u)
     {
         User created = us.newUser(u);
         if (created.getId()!=0) {
-            return new ResponseEntity<>(created.getId(), HttpStatus.OK);
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    created.getUsername(), created.getPassword()));
+            String token =util.generateToken(created.getUsername());
+            return ResponseEntity.ok(new UserResponse(token, "Token generated successfully"));
         }
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
