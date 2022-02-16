@@ -1,10 +1,15 @@
 package com.dogadoptiondb.controllers;
 
 import com.dogadoptiondb.models.User;
+import com.dogadoptiondb.models.UserRequest;
+import com.dogadoptiondb.models.UserResponse;
 import com.dogadoptiondb.services.UserService;
+import com.dogadoptiondb.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,15 +19,30 @@ public class UserController
     @Autowired
     UserService us;
 
-    @PostMapping(value = "/user",consumes = "application/json",produces = "application/json")
-    public ResponseEntity<User> newUser(@RequestParam(name = "name") String name, @RequestParam(name = "username") String username,@RequestParam(name = "email")
-            String email,@RequestParam(name = "phone") String phone, @RequestParam(name = "password") String password)
+    @Autowired
+    JWTUtil util;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @PostMapping(value = "/register",consumes = "application/json",produces = "application/json")
+    public ResponseEntity<Integer> newUser(@RequestParam User u)
     {
-        if(!name.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
-            return new ResponseEntity<>(us.newUser(new User(name, username, email, phone, password)),HttpStatus.OK);
+        User created = us.newUser(u);
+        if (created.getId()!=0) {
+            return new ResponseEntity<>(created.getId(), HttpStatus.OK);
         }
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> login(@RequestBody UserRequest request){
+
+        //Validate username/password with DB(required in case of Stateless Authentication)
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                request.getUsername(), request.getPassword()));
+        String token =util.generateToken(request.getUsername());
+        return ResponseEntity.ok(new UserResponse(token,"Token generated successfully!"));
+    }
 
 }
