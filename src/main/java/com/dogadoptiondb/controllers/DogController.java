@@ -16,8 +16,12 @@ import java.util.Map;
 @RestController
 public class DogController
 {
-    @Autowired
     DogService ds;
+
+    @Autowired
+    public DogController(DogService ds){
+        this.ds = ds;
+    }
 
     @GetMapping("/dogs")
     public List<Dog> getAllDogsNotAdopted()
@@ -29,6 +33,8 @@ public class DogController
     public ResponseEntity<Dog> getDog(@PathVariable("id") String id)
     {
         Dog d = ds.getDog(Integer.parseInt(id));
+        if(d == null)
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         if(d.getId() != 0) return new ResponseEntity<>(d, HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -38,9 +44,10 @@ public class DogController
     public List<Dog> getDogByParam(@RequestParam(name = "vaccination_status", required = false) String vaccinated,
                                    @RequestParam(value = "breed", required = false) String breed,
                                    @RequestParam(value = "size", required = false) String size,
-                                   @RequestParam(value = "sex", required = false) String sex)
+                                   @RequestParam(value = "sex", required = false) String sex,
+                                   @RequestParam(value = "page", required = false) String page)
     {
-        return ds.getDogByParam(vaccinated,null, size, sex);
+        return ds.getDogByParam(vaccinated,null, size, sex, page);
     }
 
 }
