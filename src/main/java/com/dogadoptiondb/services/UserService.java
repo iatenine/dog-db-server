@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
 public User newUser(User u)
 {
     u.setPassword(bCryptEncoder.encode(u.getPassword()));
-    return ur.save(u);
+        return ur.save(u);
 }
 
     @Override

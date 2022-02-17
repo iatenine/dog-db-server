@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,13 +26,13 @@ public class UserController
     @Autowired
     AuthenticationManager authenticationManager;
 
+
     @PostMapping(value = "/register",consumes = "application/json",produces = "application/json")
-    public ResponseEntity<UserResponse> newUser(@RequestParam User u)
+    public ResponseEntity<UserResponse> newUser(@RequestBody User u)
     {
         User created = us.newUser(u);
+
         if (created.getId()!=0) {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    created.getUsername(), created.getPassword()));
             String token =util.generateToken(created.getUsername());
             return ResponseEntity.ok(new UserResponse(token, "Token generated successfully"));
         }
