@@ -50,13 +50,13 @@ public class UserController
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/user/listDog/{id}")
+    @PutMapping("/users/listDog/{id}")
     public ResponseEntity<String> listDog(@PathVariable("id") String id, @RequestHeader("Authorization") String token)
     {
         try {
             if (token != null) {
                 String username = util.getSubject(token);
-                Dog d = us.listDog(username, Integer.parseInt(id));
+                Dog d = us.listDog(username, Integer.parseInt(id), false);
                 return new ResponseEntity<>(d.getName() + " has been successfully listed", HttpStatus.OK);
             }
             else return new ResponseEntity<>(null,HttpStatus.FORBIDDEN);
@@ -85,7 +85,7 @@ public class UserController
 
     }
 
-    @PostMapping("user/newDog")
+    @PostMapping("/users/newdog")
     public ResponseEntity<Dog> newDog(@RequestBody Dog dog, @RequestHeader("Authorization") String token)
     {
         if (token != null) {
@@ -96,6 +96,24 @@ public class UserController
             } else return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/users/removelisting/{id}")
+    public ResponseEntity<String> deList(@PathVariable("id") String id, @RequestHeader("Authorization") String token)
+    {
+        try {
+            if (token != null) {
+                String username = util.getSubject(token);
+                Dog d = us.listDog(username, Integer.parseInt(id), true);
+                return new ResponseEntity<>(d.getName() + " has been successfully de-listed", HttpStatus.OK);
+            }
+            else return new ResponseEntity<>(null,HttpStatus.FORBIDDEN);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
 

@@ -2,6 +2,7 @@ package com.dogadoptiondb.controllers;
 
 import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.services.DogService;
+import com.dogadoptiondb.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ import java.util.Map;
 public class DogController
 {
     DogService ds;
+
+    @Autowired
+    JWTUtil util;
 
     @Autowired
     public DogController(DogService ds){
@@ -46,6 +50,27 @@ public class DogController
                                    @RequestParam(value = "page", required = false) String page)
     {
         return ds.getDogByParam(vaccinated,null, size, sex, page);
+    }
+
+    @DeleteMapping("/dogs/{id}")
+    public ResponseEntity<String> deleteListing(@PathVariable("id") String id, @RequestHeader("Authorization") String token) {
+
+    try {
+        if (token != null) {
+            String username = util.getSubject(token);
+
+            if (ds.deleteDog(Integer.parseInt(id), username)) {
+                return new ResponseEntity<>("Dog Deleted", HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+        return new ResponseEntity<>("Unauthorized Request", HttpStatus.UNAUTHORIZED);
     }
 
 
