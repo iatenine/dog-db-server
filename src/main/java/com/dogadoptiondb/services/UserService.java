@@ -65,14 +65,14 @@ public User newUser(User u)
             return springUser;
         }
 
-        public Dog listDog(String username, int id)
+        public Dog listDog(String username, int id, boolean adopted)
         {
             Optional<User> u = ur.findByUsername(username);
             if(u.isEmpty()) {
                 throw new UsernameNotFoundException("User with username: " +username +" not found");
             }else {
                Dog d = u.get().getDogs().stream().filter(dog -> dog.getId()==id).collect(Collectors.toList()).get(0);
-               d.setAdopted(false);
+               d.setAdopted(adopted);
                dr.save(d);
                 return d;
             }

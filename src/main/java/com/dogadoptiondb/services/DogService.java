@@ -10,6 +10,7 @@ import com.dogadoptiondb.repositories.ListingsRepo;
 import com.dogadoptiondb.repositories.UserRepo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -96,6 +97,20 @@ public class DogService {
     {
         d.setOwner(ur.findByUsername(username).get());
         return dr.save(d);
+    }
+
+    public boolean deleteDog(int id, String username) {
+
+        User u = ur.findByUsername(username).orElse(null);
+
+        if (u == null) return false;
+
+        if(u.getDogs().stream().anyMatch(dog -> dog.getId() == id)) {
+            dr.deleteById(id);
+
+            return true;
+        }
+        return false;
     }
 
 }
