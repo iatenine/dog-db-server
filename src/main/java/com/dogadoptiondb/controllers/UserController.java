@@ -34,7 +34,7 @@ public class UserController
     AuthenticationManager authenticationManager;
 
 
-    @PostMapping(value = "/register",consumes = "application/json",produces = "application/json")
+    @PostMapping(value = "/register")
     public ResponseEntity<UserResponse> newUser(@RequestBody User u)
     {
         User created = us.newUser(u);
@@ -44,6 +44,13 @@ public class UserController
             return ResponseEntity.ok(new UserResponse(token, "Token generated successfully"));
         }
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/user/listDog/{id}")
+    public ResponseEntity<Dog> listDog(@RequestBody String id, String token)
+    {
+        //authenticationManager.authenticate()
+        return null;
     }
 
     @PostMapping("/login")

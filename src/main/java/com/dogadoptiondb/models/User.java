@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "users")
+
+
 public class User
 {
     @Id
@@ -23,6 +26,18 @@ public class User
     @OneToMany(mappedBy = "owner")
     @JsonManagedReference
     private List<Dog> dogs;
+
+    @ManyToMany
+    @JoinTable(
+            name = "saved_listings",
+            joinColumns = {
+                    @JoinColumn(name = "users_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "dogs_id")
+            }
+    )
+    private List<Dog> savedDogs;
 
     @NonNull private String legalName;
     @NonNull private String username;

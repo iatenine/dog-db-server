@@ -32,8 +32,7 @@ class UserControllerTest {
     @MockBean
     private UserService mockUserService;
 
-    final private User mockUser = new User(7,null,"JWT","JWTTest","JWTEmail","123313513","password");
-
+    final private User mockUser = new User(7,null,null,"JWT","JWTTest","JWTEmail","123313513","password");
     @BeforeEach
     void setup()
     {
@@ -47,5 +46,6 @@ class UserControllerTest {
                 contentType(MediaType.APPLICATION_JSON).content(gson.toJson(mockUser))).
                 andExpect(MockMvcResultMatchers.status().isOk());
     }
+
 
 }
