@@ -83,12 +83,26 @@ public User newUser(User u)
         List<SavedListings> apps = (List<SavedListings>) lr.findAll();
         apps = apps.stream().filter(listing -> listing.getOwner().getId()==id).collect(Collectors.toList());
 
-        ArrayList<Dog> dogs= new ArrayList<>();
+        ArrayList<Dog> dogs = new ArrayList<>();
         for (SavedListings listing:apps)
         {
             dogs.add(listing.getDog());
         }
         return dogs;
+    }
+
+    public SavedListings  applyOrSave(String username, int id, boolean isApplying) {
+
+        User user = ur.findByUsername(username).orElse(null);
+        Dog dog = dr.findById(id).orElse(null);
+
+        if ( user != null && dog != null) {
+
+            SavedListings listing = new SavedListings(0, user, dog, isApplying);
+
+            return lr.save(listing);
+        }
+        return null;
     }
 
     }

@@ -28,4 +28,6 @@ public class SavedListings
     @JsonBackReference
     @JoinColumn(name = "dogs_id")
     private Dog dog;
+
+    private boolean applicant;
 }
