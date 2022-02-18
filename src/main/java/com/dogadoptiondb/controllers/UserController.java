@@ -1,5 +1,6 @@
 package com.dogadoptiondb.controllers;
 
+import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.models.User;
 import com.dogadoptiondb.models.UserRequest;
 import com.dogadoptiondb.models.UserResponse;
@@ -12,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -26,6 +29,24 @@ public class UserController
     @Autowired
     AuthenticationManager authenticationManager;
 
+
+    @GetMapping(value = "/user/dogs/{id}")
+    public ResponseEntity<List<Dog>> getPublicUsersDogs(@PathVariable("id") String id)
+    {
+        try {
+            List<Dog> dogs = us.getUsersDogs(Integer.parseInt(id));
+
+            if (dogs == (null))
+            {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(dogs, HttpStatus.OK);
+        }
+        catch (NumberFormatException e)
+        {
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PostMapping(value = "/register",consumes = "application/json",produces = "application/json")
     public ResponseEntity<UserResponse> newUser(@RequestBody User u)
@@ -50,3 +71,6 @@ public class UserController
     }
 
 }
+/*
+https://revature.zoom.us/j/93959051560?pwd=bldtaldtK0wyelJkUU9WVHg0d3pSQT09
+ */

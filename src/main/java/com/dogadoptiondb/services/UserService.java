@@ -1,5 +1,6 @@
 package com.dogadoptiondb.services;
 
+import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.models.User;
 import com.dogadoptiondb.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -51,5 +53,14 @@ public User newUser(User u)
             }
 
             return springUser;
+        }
+
+        public List<Dog> getUsersDogs(int id)
+        {
+            Optional<User> u = ur.findById(id);
+            if(u.isPresent()&&u.get().getDogs() !=null) {
+                return u.get().getDogs();
+            }
+            else return null;
         }
     }

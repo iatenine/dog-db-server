@@ -32,12 +32,19 @@ public class DogController
     @GetMapping("/dogs/{id}")
     public ResponseEntity<Dog> getDog(@PathVariable("id") String id)
     {
+        try{
         Dog d = ds.getDog(Integer.parseInt(id));
+
         if(d == null)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         if(d.getId() != 0) return new ResponseEntity<>(d, HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (NumberFormatException e)
+    {
+        return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+    }
     }
 
     @GetMapping("/dogs/search")
