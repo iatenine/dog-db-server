@@ -3,11 +3,16 @@ package com.dogadoptiondb.services;
 
 import com.dogadoptiondb.models.Breed;
 import com.dogadoptiondb.models.Dog;
+import com.dogadoptiondb.models.SavedListings;
+import com.dogadoptiondb.models.User;
 import com.dogadoptiondb.repositories.DogRepo;
+import com.dogadoptiondb.repositories.ListingsRepo;
+import com.dogadoptiondb.repositories.UserRepo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.*;
 
@@ -16,6 +21,12 @@ import java.util.List;
 public class DogService {
     @Autowired
     DogRepo dr;
+
+    @Autowired
+    UserRepo ur;
+
+    @Autowired
+    ListingsRepo lr;
 
     public List<Dog> getAllDogsNotAdopted() {
         List<Dog> dogs = (List<Dog>) dr.findAll();
@@ -68,6 +79,24 @@ public class DogService {
         return dogs.stream().filter(dog -> dog.getOwner().getId() == id).collect(Collectors.toList());
     }
 
+    public List<User> getDogApplication(int id)
+    {
+        List<SavedListings> apps = (List<SavedListings>) lr.findAll();
+        apps = apps.stream().filter(listing -> listing.getDog().getId()==id).collect(Collectors.toList());
+
+        ArrayList<User> users= new ArrayList<>();
+        for (SavedListings listing:apps)
+        {
+            users.add(listing.getOwner());
+        }
+        return users;
+    }
+
+    public Dog newDog(String username, Dog d)
+    {
+        d.setOwner(ur.findByUsername(username).get());
+        return dr.save(d);
+    }
 
 }
 

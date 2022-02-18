@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,9 @@ public class UserController
     @Autowired
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    UserDetailsService detailsService;
+
 
     @PostMapping(value = "/register")
     public ResponseEntity<UserResponse> newUser(@RequestBody User u)
@@ -47,10 +51,21 @@ public class UserController
     }
 
     @PutMapping("/user/listDog/{id}")
-    public ResponseEntity<Dog> listDog(@RequestBody String id, String token)
+    public ResponseEntity<String> listDog(@RequestParam String id, @RequestHeader("Authorization") String token)
     {
-        //authenticationManager.authenticate()
-        return null;
+        try {
+            if (token != null) {
+                String username = util.getSubject(token);
+                Dog d = us.listDog(username, Integer.parseInt(id));
+                return new ResponseEntity<>(d.getName() + " has been successfully listed", HttpStatus.OK);
+            }
+            else return new ResponseEntity<>(null,HttpStatus.FORBIDDEN);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/login")
@@ -68,6 +83,19 @@ public class UserController
 
         return ds.getDogsByOwnerId(Integer.parseInt(id));
 
+    }
+
+    @PostMapping("user/newDog")
+    public ResponseEntity<Dog> newDog(@RequestBody Dog dog, @RequestHeader("Authorization") String token)
+    {
+        if (token != null) {
+            String username = util.getSubject(token);
+            Dog d = ds.newDog(username,dog);
+            if (d.getId() != 0) {
+                return new ResponseEntity<>(d, HttpStatus.OK);
+            } else return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
