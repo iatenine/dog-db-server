@@ -51,7 +51,7 @@ public class UserController
     }
 
     @PutMapping("/user/listDog/{id}")
-    public ResponseEntity<String> listDog(@RequestParam String id, @RequestHeader("Authorization") String token)
+    public ResponseEntity<String> listDog(@PathVariable("id") String id, @RequestHeader("Authorization") String token)
     {
         try {
             if (token != null) {
