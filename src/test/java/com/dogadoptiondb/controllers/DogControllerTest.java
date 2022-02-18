@@ -149,4 +149,5 @@ class DogControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$", isA(net.minidev.json.JSONArray.class)));
     }
+
 }
