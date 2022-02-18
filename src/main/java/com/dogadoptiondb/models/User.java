@@ -1,5 +1,7 @@
 package com.dogadoptiondb.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +21,7 @@ public class User
     private int id;
 
     @OneToMany(mappedBy = "owner")
+    @JsonManagedReference
     private List<Dog> dogs;
 
     @NonNull private String legalName;

@@ -4,6 +4,7 @@ package com.dogadoptiondb.services;
 import com.dogadoptiondb.models.Breed;
 import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.repositories.DogRepo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,4 +59,15 @@ public class DogService {
             }
             return dogs;
     }
+
+    public List<Dog> getDogsByOwnerId(int id) {
+
+
+        List<Dog> dogs = (List<Dog>) dr.findAll();
+
+        return dogs.stream().filter(dog -> dog.getOwner().getId() == id).collect(Collectors.toList());
+    }
+
+
 }
+

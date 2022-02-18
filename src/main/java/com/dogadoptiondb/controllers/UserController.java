@@ -1,8 +1,10 @@
 package com.dogadoptiondb.controllers;
 
+import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.models.User;
 import com.dogadoptiondb.models.UserRequest;
 import com.dogadoptiondb.models.UserResponse;
+import com.dogadoptiondb.services.DogService;
 import com.dogadoptiondb.services.UserService;
 import com.dogadoptiondb.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class UserController
 {
     @Autowired
     UserService us;
+
+    @Autowired
+    DogService ds;
 
     @Autowired
     JWTUtil util;
@@ -48,5 +55,13 @@ public class UserController
         String token =util.generateToken(request.getUsername());
         return ResponseEntity.ok(new UserResponse(token,"Token generated successfully!"));
     }
+
+    @GetMapping("/users/dogs/{id}")
+    public List<Dog> getDogsByOwnerId(@PathVariable("id") String id) {
+
+        return ds.getDogsByOwnerId(Integer.parseInt(id));
+
+    }
+
 
 }
