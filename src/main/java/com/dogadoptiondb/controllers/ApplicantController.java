@@ -83,4 +83,23 @@ public class ApplicantController
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    @PutMapping(path = "/applicants/approve/{userId}/{dogId}")
+    public ResponseEntity<String> approveApplication(@PathVariable("userId") String userId,
+                                                     @PathVariable("dogId") String dogId,
+                                                     @RequestHeader("Authorization") String token) {
+
+        if (token != null) {
+            String username = util.getSubject(token);
+
+            if (us.approveApplication(username, Integer.parseInt(userId), Integer.parseInt(dogId))) {
+                return new ResponseEntity<>("Application Approved", HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+
 }

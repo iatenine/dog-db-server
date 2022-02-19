@@ -52,7 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()    //Disabling CSRF as not using form based login
                 .authorizeRequests()
                 //The urls that do not require authorization
-                .antMatchers("/dogs","/dogs/{id}","/login","/register","/users/dogs/{id}","/users/mydogs","/applicants/dog/{id}","/applicants/user/{id}").permitAll()
+                .antMatchers("/dogs","/dogs/{id}","/login","/register","/users/dogs/{id}","/users/mydogs",
+                                        "/applicants/dog/{id}","/applicants/user/{id}").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

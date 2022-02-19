@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface ListingsRepo extends CrudRepository<SavedListings, Integer>
 {
     List<SavedListings> findByDogId(int id);
+//    void deleteByDog(Dog dog);
 
 }
