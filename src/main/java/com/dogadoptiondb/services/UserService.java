@@ -105,4 +105,38 @@ public User newUser(User u)
         return null;
     }
 
+    /**
+     * //Todo ---write comments
+     * @param username
+     * Does stuff
+     * @param userId
+     * @param dogId
+     * @return
+     */
+    public boolean approveApplication(String username, int userId, int dogId) {
+
+        List<SavedListings> listingsList = lr.findByDogId(dogId).stream().filter(
+                listingItem -> listingItem.getDog().getOwner().getUsername().equals(username)
+                && listingItem.isApplicant()
+                && listingItem.getOwner().getId() == userId)
+                .collect(Collectors.toList());
+
+        if(listingsList.isEmpty()) return false;
+
+        SavedListings list =  listingsList.get(0);
+
+        Dog dog = list.getDog();
+
+        List<SavedListings> l = lr.findByDogId(dogId);
+
+        lr.deleteAll(l);
+
+        dog.setOwner(list.getOwner());
+        dog.setAdopted(true);
+
+        dr.save(dog);
+
+        return true;
+    }
+
     }
