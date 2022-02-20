@@ -37,12 +37,23 @@ public class UserService implements UserDetailsService {
     @Autowired
     BCryptPasswordEncoder bCryptEncoder;
 
-public User newUser(User u)
+    /**
+     * Takes in a user and encrypts the password before being inserted into the DB
+     * @param u user being created
+     * @return the created user
+     */
+    public User newUser(User u)
 {
     u.setPassword(bCryptEncoder.encode(u.getPassword()));
         return ur.save(u);
 }
 
+    /**
+     * Uses a username to create a spring user that is used by JWT
+     * @param username username being searched for
+     * @return UserDetails of the user that was found
+     * @throws UsernameNotFoundException thrown if the username does not exist
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
             Optional<User> opt = ur.findByUsername(username);
@@ -65,6 +76,13 @@ public User newUser(User u)
             return springUser;
         }
 
+    /**
+     * Lists or removes a listing for a dog
+     * @param username username of the user listing the dog
+     * @param id id of the dog
+     * @param adopted true if the dog is being listed, false if the listing is being removed
+     * @return the dog that has been changed
+     */
         public Dog listDog(String username, int id, boolean adopted)
         {
             Optional<User> u = ur.findByUsername(username);
@@ -78,6 +96,11 @@ public User newUser(User u)
             }
         }
 
+    /**
+     * Returns a list of all dogs that the user has an application for or has saved
+     * @param id id of the user
+     * @return list of dogs the user has applied for or saved
+     */
     public List<Dog> getUserApplication(int id)
     {
         List<SavedListings> apps = (List<SavedListings>) lr.findAll();
@@ -91,6 +114,13 @@ public User newUser(User u)
         return dogs;
     }
 
+    /**
+     * Allows a user to apply for or save a dog to their favorites list
+     * @param username user that is applying/saving
+     * @param id the dogs id that is being applied for / saved
+     * @param isApplying true if it is an application, false if the dog is just being saved
+     * @return the created listing
+     */
     public SavedListings  applyOrSave(String username, int id, boolean isApplying) {
 
         User user = ur.findByUsername(username).orElse(null);
@@ -106,12 +136,11 @@ public User newUser(User u)
     }
 
     /**
-     * //Todo ---write comments
-     * @param username
-     * Does stuff
-     * @param userId
-     * @param dogId
-     * @return
+     * Approves an existing dog adoption application
+     * @param username Username of the approving user
+     * @param userId Id of the user that is going to adopt the dog
+     * @param dogId Id of the dog being adopted
+     * @return true if successful, false if it failed
      */
     public boolean approveApplication(String username, int userId, int dogId) {
 
