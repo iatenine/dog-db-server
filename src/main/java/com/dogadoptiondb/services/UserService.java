@@ -37,11 +37,15 @@ public class UserService implements UserDetailsService {
     @Autowired
     BCryptPasswordEncoder bCryptEncoder;
 
-public User newUser(User u)
-{
+    public User newUser(User u)
+    {
     u.setPassword(bCryptEncoder.encode(u.getPassword()));
         return ur.save(u);
-}
+    }
+
+    public User getUserByUsername(String username){
+        return ur.findByUsername(username).orElse(null);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
