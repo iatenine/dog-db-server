@@ -46,7 +46,11 @@ public class UserService implements UserDetailsService {
 {
     u.setPassword(bCryptEncoder.encode(u.getPassword()));
         return ur.save(u);
-}
+    }
+
+    public User getUserByUsername(String username){
+        return ur.findByUsername(username).orElse(null);
+    }
 
     /**
      * Uses a username to create a spring user that is used by JWT

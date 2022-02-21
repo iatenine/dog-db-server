@@ -1,5 +1,6 @@
 package com.dogadoptiondb.controllers;
 
+import com.dogadoptiondb.models.Breed;
 import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.services.DogService;
 import com.dogadoptiondb.util.JWTUtil;
@@ -29,6 +30,11 @@ public class DogController
     public List<Dog> getAllDogsNotAdopted()
     {
         return ds.getAllDogsNotAdopted();
+    }
+
+    @GetMapping("/dogs/getbreeds")
+    public List<Breed> getAllBreeds(){
+        return ds.getAllBreeds();
     }
 
     @GetMapping("/dogs/{id}")
@@ -72,7 +78,5 @@ public class DogController
 
         return new ResponseEntity<>("Unauthorized Request", HttpStatus.UNAUTHORIZED);
     }
-
-
 
 }

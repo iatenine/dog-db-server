@@ -56,6 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                         "/applicants/dog/{id}","/applicants/user/{id}").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .cors()
+                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()

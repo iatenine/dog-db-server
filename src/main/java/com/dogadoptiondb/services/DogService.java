@@ -5,6 +5,7 @@ import com.dogadoptiondb.models.Breed;
 import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.models.SavedListings;
 import com.dogadoptiondb.models.User;
+import com.dogadoptiondb.repositories.BreedRepo;
 import com.dogadoptiondb.repositories.DogRepo;
 import com.dogadoptiondb.repositories.ListingsRepo;
 import com.dogadoptiondb.repositories.UserRepo;
@@ -24,6 +25,9 @@ public class DogService {
     DogRepo dr;
 
     @Autowired
+    BreedRepo br;
+
+    @Autowired
     UserRepo ur;
 
     @Autowired
@@ -38,7 +42,12 @@ public class DogService {
         return dogs.stream().filter(dog -> !dog.isAdopted()).collect(Collectors.toList());
     }
 
-    /**
+  
+    public List<Breed> getAllBreeds(){
+        return br.findAll();
+    }
+
+  /**
      * Gets a dog by its id
      * @param id the dogs id
      * @return the dog matching the id, or else an empty dog

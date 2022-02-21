@@ -50,6 +50,7 @@ public class ApplicantController
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/applicants/apply/{dogId}")
     public ResponseEntity<String> applyToAdopt(@PathVariable("dogId") String id, @RequestHeader("Authorization") String token) {
 
