@@ -86,6 +86,20 @@ public class UserController
 
     }
 
+    @GetMapping("/users/mydogs")
+    public ResponseEntity<List<Dog>> getMyDogs(@RequestHeader("Authorization") String token) {
+
+        if (token != null) {
+            String username = util.getSubject(token);
+            User u = us.getUserByUsername(username);
+            if(u == null)
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(u.getDogs(), HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+    }
+
     @PostMapping("/users/newdog")
     public ResponseEntity<Dog> newDog(@RequestBody Dog dog, @RequestHeader("Authorization") String token)
     {
