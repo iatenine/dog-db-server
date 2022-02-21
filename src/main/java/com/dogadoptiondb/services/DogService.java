@@ -5,6 +5,7 @@ import com.dogadoptiondb.models.Breed;
 import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.models.SavedListings;
 import com.dogadoptiondb.models.User;
+import com.dogadoptiondb.repositories.BreedRepo;
 import com.dogadoptiondb.repositories.DogRepo;
 import com.dogadoptiondb.repositories.ListingsRepo;
 import com.dogadoptiondb.repositories.UserRepo;
@@ -24,6 +25,9 @@ public class DogService {
     DogRepo dr;
 
     @Autowired
+    BreedRepo br;
+
+    @Autowired
     UserRepo ur;
 
     @Autowired
@@ -32,6 +36,10 @@ public class DogService {
     public List<Dog> getAllDogsNotAdopted() {
         List<Dog> dogs = (List<Dog>) dr.findAll();
         return dogs.stream().filter(dog -> !dog.isAdopted()).collect(Collectors.toList());
+    }
+
+    public List<Breed> getAllBreeds(){
+        return br.findAll();
     }
 
     public Dog getDog(int id) {
