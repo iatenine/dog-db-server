@@ -29,16 +29,34 @@ public class DogService {
     @Autowired
     ListingsRepo lr;
 
+    /**
+     * Gets all dogs that are not adopted
+     * @return a list of all non adopted dogs
+     */
     public List<Dog> getAllDogsNotAdopted() {
         List<Dog> dogs = (List<Dog>) dr.findAll();
         return dogs.stream().filter(dog -> !dog.isAdopted()).collect(Collectors.toList());
     }
 
+    /**
+     * Gets a dog by its id
+     * @param id the dogs id
+     * @return the dog matching the id, or else an empty dog
+     */
     public Dog getDog(int id) {
         return dr.findById(id).orElse(new Dog());
     }
 
 
+    /**
+     * returns a list of dogs based on search parameters
+     * @param vaccinated vaccination status
+     * @param breed breed
+     * @param size dog size as a number
+     * @param sex dogs sex
+     * @param page page the dog is located on
+     * @return a list of dogs matching the search criteria
+     */
     public List<Dog> getDogByParam(String vaccinated, Breed breed, String size, String sex, String page) {
         List<Dog> dogs = (List<Dog>) dr.findAll();
         dogs = dogs.stream().filter(dog -> !dog.isAdopted()).collect(Collectors.toList());
@@ -72,6 +90,11 @@ public class DogService {
             return dogs;
     }
 
+    /**
+     * gets all dogs owned by a user
+     * @param id id of the owner being searched
+     * @return all dogs owned by the user with the matching id
+     */
     public List<Dog> getDogsByOwnerId(int id) {
 
 
@@ -80,6 +103,11 @@ public class DogService {
         return dogs.stream().filter(dog -> dog.getOwner().getId() == id).collect(Collectors.toList());
     }
 
+    /**
+     * gets all users with an application for a dog
+     * @param id dog being searched for
+     * @return all users with an application for the dog
+     */
     public List<User> getDogApplication(int id)
     {
         List<SavedListings> apps = (List<SavedListings>) lr.findAll();
@@ -93,12 +121,24 @@ public class DogService {
         return users;
     }
 
+    /**
+     * creates a new dog
+     * @param username username of the owner of the dog
+     * @param d dog being created
+     * @return the created dog
+     */
     public Dog newDog(String username, Dog d)
     {
         d.setOwner(ur.findByUsername(username).get());
         return dr.save(d);
     }
 
+    /**
+     * deletes a dog
+     * @param id dogs id being deleted
+     * @param username username of the dogs owner
+     * @return true if dog was deleted, false if it was not deleted
+     */
     public boolean deleteDog(int id, String username) {
 
         User u = ur.findByUsername(username).orElse(null);
