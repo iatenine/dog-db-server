@@ -5,13 +5,10 @@ import com.dogadoptiondb.models.Breed;
 import com.dogadoptiondb.models.Dog;
 import com.dogadoptiondb.models.SavedListings;
 import com.dogadoptiondb.models.User;
-import com.dogadoptiondb.repositories.BreedRepo;
 import com.dogadoptiondb.repositories.DogRepo;
 import com.dogadoptiondb.repositories.ListingsRepo;
 import com.dogadoptiondb.repositories.UserRepo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,9 +20,6 @@ import java.util.List;
 public class DogService {
     @Autowired
     DogRepo dr;
-
-    @Autowired
-    BreedRepo br;
 
     @Autowired
     UserRepo ur;
@@ -42,16 +36,6 @@ public class DogService {
         return dogs.stream().filter(dog -> !dog.isAdopted()).collect(Collectors.toList());
     }
 
-  
-    public List<Breed> getAllBreeds(){
-        return br.findAll();
-    }
-
-  /**
-     * Gets a dog by its id
-     * @param id the dogs id
-     * @return the dog matching the id, or else an empty dog
-     */
     public Dog getDog(int id) {
         return dr.findById(id).orElse(new Dog());
     }

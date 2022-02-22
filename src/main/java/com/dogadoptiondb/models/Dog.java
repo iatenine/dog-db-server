@@ -30,7 +30,7 @@ public class Dog
     @JoinColumn(name = "owners_id")
     private User owner;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "breed")
     private Breed breed;
     private boolean adopted;

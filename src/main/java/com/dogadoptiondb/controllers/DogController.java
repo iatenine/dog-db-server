@@ -32,11 +32,6 @@ public class DogController
         return ds.getAllDogsNotAdopted();
     }
 
-    @GetMapping("/dogs/getbreeds")
-    public List<Breed> getAllBreeds(){
-        return ds.getAllBreeds();
-    }
-
     @GetMapping("/dogs/{id}")
     public ResponseEntity<Dog> getDog(@PathVariable("id") String id)
     {
