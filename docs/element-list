@@ -1,0 +1,7 @@
+com.dogadoptiondb.app
+com.dogadoptiondb.config
+com.dogadoptiondb.controllers
+com.dogadoptiondb.models
+com.dogadoptiondb.repositories
+com.dogadoptiondb.services
+com.dogadoptiondb.util
